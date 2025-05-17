@@ -1,8 +1,8 @@
-package com.atomicjar.todos.web;
+package com.example.todos.web;
 
-import com.atomicjar.todos.entity.Todo;
-import com.atomicjar.todos.hn.HackernewsClient;
-import com.atomicjar.todos.repository.TodoRepository;
+import com.example.todos.entity.Todo;
+import com.example.todos.hn.HackernewsClient;
+import com.example.todos.repository.TodoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

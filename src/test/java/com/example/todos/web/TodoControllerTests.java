@@ -1,7 +1,7 @@
-package com.atomicjar.todos.web;
+package com.example.todos.web;
 
-import com.atomicjar.todos.entity.Todo;
-import com.atomicjar.todos.repository.TodoRepository;
+import com.example.todos.entity.Todo;
+import com.example.todos.repository.TodoRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;

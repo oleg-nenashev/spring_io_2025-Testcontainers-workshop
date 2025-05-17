@@ -1,4 +1,4 @@
-package com.atomicjar.todos;
+package com.example.todos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

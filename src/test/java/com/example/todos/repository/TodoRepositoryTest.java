@@ -1,6 +1,6 @@
-package com.atomicjar.todos.repository;
+package com.example.todos.repository;
 
-import com.atomicjar.todos.entity.Todo;
+import com.example.todos.entity.Todo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

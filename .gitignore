@@ -1,14 +1,21 @@
 target/
 
+# VS Code
 .vscode/
 /.project
 /.classpath
 /.settings/
 /bin/
 
+# IDEA
 .idea
 *.iml
 *.ipr
 *.iws
 
+# Gradle
+build/
+.gradle/
+
 .DS_Store
+

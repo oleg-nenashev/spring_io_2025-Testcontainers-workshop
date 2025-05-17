@@ -1,18 +1,12 @@
-package com.atomicjar.todos;
+package com.example.todos;
 
-import com.atomicjar.todos.entity.Todo;
-import com.atomicjar.todos.repository.TodoRepository;
+import com.example.todos.entity.Todo;
+import com.example.todos.repository.TodoRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.testcontainers.DockerClientFactory;
-
-import java.sql.PreparedStatement;
 
 // run this application with:
 // ./mvnw spring-boot:test-run

@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.19.1</testcontainers.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
