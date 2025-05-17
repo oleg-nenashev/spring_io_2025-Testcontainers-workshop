@@ -36,6 +36,7 @@ repositories {
 
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.21.0"))
     implementation("org.flywaydb:flyway-database-postgresql")
 
     api(libs.org.springframework.boot.spring.boot.starter.data.jpa)
