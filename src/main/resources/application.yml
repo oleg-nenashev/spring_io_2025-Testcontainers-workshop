@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: event-registration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testcontainers_wiremock_demo
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+  sql:
+    init:
+      mode: always

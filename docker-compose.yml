@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:17.5
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "testcontainers_wiremock_demo"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
