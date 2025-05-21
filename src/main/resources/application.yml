@@ -2,7 +2,8 @@ server:
   port: 8080
 
 hackernews:
-  base-url: http://localhost:5433
+#  base-url: http://localhost:5433
+  base-url: https://hacker-news.firebaseio.com/v0/
 
 spring:
   application:
