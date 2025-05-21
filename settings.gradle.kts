@@ -5,3 +5,4 @@
  */
 
 rootProject.name = "testcontainers-wiremock-demo"
+

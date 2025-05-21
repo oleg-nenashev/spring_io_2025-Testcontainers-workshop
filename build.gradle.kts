@@ -55,9 +55,14 @@ dependencies {
     testImplementation(libs.com.github.wiremock.wiremock.testcontainers.java)
     testImplementation(libs.io.rest.assured.rest.assured)
 
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-
     compileOnly("org.springframework.boot:spring-boot-devtools")
+
+    // If we use the dev services mode
+    if (project.hasProperty("withDevServices")) {
+        developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    }
+
+
 }
 
 publishing {

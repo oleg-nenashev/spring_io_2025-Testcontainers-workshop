@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+hackernews:
+  base-url: http://localhost:5433
+
 spring:
   application:
     name: event-registration

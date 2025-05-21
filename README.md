@@ -18,27 +18,35 @@ running in [Testcontainers](https://www.testcontainers.org/).
 4. Open the application in the browser: [link](http://localhost:8080/?http://localhost:8080/todos)
 5. Click the _What's up on Hackernews?_ to see what new get loaded for your reading list!
 
-### Part I. Testcontainers for Unit and Integration tests
+### Part I. Containers for Development
 
 Let's write a few tests with Testcontainers
 
-1. Using Postgres in a Testcontainers.
-   Let's start from `TodoControllerTests`demo - RestAssured + Testcontainers.
+1. We will use Postgres in a Container
+2. We can use Developer Services. They are [available](https://docs.spring.io/spring-boot/reference/features/dev-services.html) in Spring Boot, too!
+3. Uncomment `withDevServices` in `gradle.settings.kts`
 
 Task: We have a database with the migration script.
 Let's test that we use the right versions and can actually migrate.
 
 ### Part II. Now with WireMock
 
+For this part, we will download additional reading tasks from Hacker News.
+They have a [public API](https://github.com/HackerNews/API).
+
 * There is a Spring Boot integration, 
    now a part of the WireMock organization: [WireMock Spring Boot](https://github.com/wiremock/wiremock-spring-boot)
 * There is a Testcontainers module for WireMock that embeds everything:
   [wiremock/wiremock-testcontainers-java](https://github.com/wiremock/wiremock-testcontainers-java).
   We use it in the workshop.
+* You can use a Dev Service too.
  
 Steps:
 
-1. Check out the `ContainersConfig` class to see how elegant the Spring Boot and Testcontainers integration is now.
+1. Try the application against the production server. It might work... or not
+2. Enable the WireMock service in Docker Compose by uncommenting the bits in 
+   `docker-compose.yml`, `gradle.properties` and `application.yml`
+2. Check out the `ContainersConfig` class to see how elegant the Spring Boot and Testcontainers integration is now.
 Let's write a few tests for the Hackernews API provider with them.
 2. Check out the WireMock JSON and how non-elegant it is
 3. See `ApplicationTests` for wiring examples
@@ -49,14 +57,14 @@ Tasks:
 5. Add a new test with a server that returns error - no Data found, and validates the client behavior for it
 6. BONUS: Add a test that configures WireMock on the flight... in code
 
-### Part III. Let's add some AI?
+### Part 3. Let's add some AI?
 
 * Docker Model Runner: https://docs.docker.com/model-runner/
 * Spring AI: https://spring.io/projects/spring-ai
 
 Get started: 
 
-1. Pull the model using `docker pull ai/qwen3:30B-A3B-Q4_K_M`
+1. Pull the model using `docker pull ai/qwen3:30B-A3B-Q4_K_M` (for reasonable results) or `ai/smollm2:135M-Q2_K` (for minimum PoC)
 2. Add Spring AI to your project
 3. Configure it to refer the Docker Model Runner
 
