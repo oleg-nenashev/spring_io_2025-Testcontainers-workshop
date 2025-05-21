@@ -55,6 +55,8 @@ dependencies {
     testImplementation(libs.com.github.wiremock.wiremock.testcontainers.java)
     testImplementation(libs.io.rest.assured.rest.assured)
 
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+
     compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
@@ -76,4 +78,11 @@ tasks.withType<Javadoc>() {
 
 tasks.named<BootRun>("bootRun") {
     mainClass.set("com.example.todos.Application")
+    debugOptions {
+        port = 5005
+    }
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
 }

@@ -3,6 +3,7 @@ package com.example.todos;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.DynamicPropertyRegistrar;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -16,8 +17,13 @@ public class ContainersConfig {
     WireMockContainer wireMockContainer(DynamicPropertyRegistry properties){
         var container = new WireMockContainer("wiremock/wiremock:3.1.0")
             .withMappingFromResource("hackernews", "hackernews_v0-stubs.json");
-        properties.add("hackernews.base-url", container::getBaseUrl);
+
         return container;
+    }
+
+    @Bean
+    DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer) {
+        return registry -> registry.add("api.url", wireMockContainer::getBaseUrl);
     }
 
     @Bean
