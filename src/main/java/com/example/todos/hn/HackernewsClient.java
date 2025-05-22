@@ -40,18 +40,13 @@ public class HackernewsClient {
   public void getTopStories(int n) {
     Query.getTopStories(getWebClient(), n, hnItem ->
       {
-        String title = hnItem.title();
-        List<Todo> byTitle = todoRepository.findByTitle(title);
-        if(byTitle.isEmpty()) {
-          Todo todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
-          todoRepository.save(todo);
-        };
+        todoFromHNItem(hnItem);
       });
   }
 
   public static class Query {
 
-    public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
+      public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
       client.get()
           .uri("beststories.json")
           .retrieve()
