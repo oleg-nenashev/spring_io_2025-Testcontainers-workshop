@@ -1,4 +1,4 @@
-package com.example.todos;
+package com.example.todos.ai;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -11,27 +11,22 @@ import org.wiremock.integrations.testcontainers.WireMockContainer;
 
 
 @TestConfiguration(proxyBeanMethods = false)
-public class ContainersConfig {
-
-    @Bean
-    DockerModelRunnerContainer dockerModelRunnerContainer() {
-        var container = new DockerModelRunnerContainer("alpine/socat:1.8.0.1");
-        return container;
-    }
+public class MockAIContainersConfig {
 
     @Bean
     WireMockContainer wireMockContainer() {
         var container = new WireMockContainer("wiremock/wiremock:3.13.0")
-            .withMappingFromResource("hackernews", "mappings/hackernews_v0-stubs.json");
+            .withMappingFromResource("hackernews", "mappings/hackernews_v0-stubs.json")
+             .withMappingFromResource("AI Model", "ai/mappings/aimodel.json");    ;
 
         return container;
     }
 
     @Bean
-    DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer, DockerModelRunnerContainer dockerModelRunnerContainer) {
+    DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer) {
         return registry -> {
             registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
-            registry.add("spring.ai.openai.base-url", dockerModelRunnerContainer::getOpenAIEndpoint);
+            registry.add("spring.ai.openai.base-url", wireMockContainer::getBaseUrl);
         };
     }
 

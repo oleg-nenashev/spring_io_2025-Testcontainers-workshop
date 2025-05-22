@@ -29,7 +29,7 @@
     },
     "response" : {
       "status" : 301,
-      "body" : "\n   \"summary\": \"WireMock is a popular open-source mock server for Node.js, offering a convenient way to test applications in isolation. The article announces the official release of a Testcontainers module, making it easier to integrate WireMock with Testcontainers.\",\n   \"priority\": \"medium\",\n   \"timeEstimate\": \"5-7 min\",\n   \"sentiment\": \"positive\"\n }\n",
+      "body" : "<a href=\"/engines/engines/v1/chat/completions\">Moved Permanently</a>.\n\n",
       "headers" : {
         "Date" : "Thu, 22 May 2025 10:20:06 GMT",
         "Location" : "/engines/engines/v1/chat/completions",
