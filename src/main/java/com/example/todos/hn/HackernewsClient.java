@@ -47,15 +47,15 @@ public class HackernewsClient {
   public static class Query {
 
     public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
-        getStories("/topstories.json", n, consumer);
+        getStories("/topstories.json", client, n, consumer);
     }
 
     public static void getBestStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
-        getStories("/beststories.json", n, consumer);
+        getStories("/beststories.json", client, n, consumer);
     }
 
     public static void getStories(String endpoint, WebClient client, int n, Consumer<HackernewsItem> consumer) {
-      client.get()
+        client.get()
               .uri(endpoint)
               .retrieve()
               .bodyToFlux(Integer.class)

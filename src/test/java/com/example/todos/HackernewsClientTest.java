@@ -51,12 +51,12 @@ class HackernewsClientTest {
  //   }
 
     @Test
-    public void loadsBestStoriesFromTheAPI() {
+    public void loadsTopStoriesFromTheAPI() {
         given()
                 .baseUri(wireMockUrl)
                 .contentType(ContentType.JSON)
         .when()
-                .get("/beststories.json")
+                .get("/topstories.json")
         .then()
                 .statusCode(200)
                 .body(".", hasSize(4));
