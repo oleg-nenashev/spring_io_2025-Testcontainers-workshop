@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.hasSize;
  * It is a test configuration for Testcontainers isolating the target environment.
  *
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {Application.class, TestConfig.class})
 @EnableWireMock(
         @ConfigureWireMock( name = "hackernews-server",
                 resetWireMockServer = true,

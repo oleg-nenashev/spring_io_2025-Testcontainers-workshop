@@ -64,12 +64,19 @@ public class HackernewsClient {
     String title = hnItem.title();
     List<Todo> byTitle = todoRepository.findByTitle(title);
     if(byTitle.isEmpty()) {
-      Todo todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
-      todoRepository.save(todo);
-
-
       HackernewsItemResult assessment = aiService.assess(hnItem);
-      System.out.println("Oleg-Oleg: \n\n\n:" + assessment);
+
+      Todo todo;
+      if (assessment != null) {
+        todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants(),
+                       assessment.summary(), assessment.priority(), assessment.timeEstimate(), assessment.sentiment());
+        System.out.println("Created Todo with HackernewsItemResult: " + assessment);
+      } else {
+        todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
+        System.out.println("Created Todo without HackernewsItemResult");
+      }
+
+      todoRepository.save(todo);
     }
   }
 

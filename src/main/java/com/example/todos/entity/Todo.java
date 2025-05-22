@@ -26,6 +26,18 @@ public class Todo {
     @Column(name = "order_number")
     private Integer order;
 
+    @Column(name = "summary")
+    private String summary;
+
+    @Column(name = "priority")
+    private String priority;
+
+    @Column(name = "time_estimate")
+    private String timeEstimate;
+
+    @Column(name = "sentiment")
+    private String sentiment;
+
     public Todo() {
     }
 
@@ -35,6 +47,19 @@ public class Todo {
         this.completed = completed;
         this.order = order;
         this.link = link;
+    }
+
+    public Todo(String id, String title, String link, Boolean completed, Integer order, 
+                String summary, String priority, String timeEstimate, String sentiment) {
+        this.id = id;
+        this.title = title;
+        this.completed = completed;
+        this.order = order;
+        this.link = link;
+        this.summary = summary;
+        this.priority = priority;
+        this.timeEstimate = timeEstimate;
+        this.sentiment = sentiment;
     }
 
     public String getId() {
@@ -82,6 +107,38 @@ public class Todo {
         return ServletUriComponentsBuilder.fromCurrentContextPath().toUriString() + "/todos/" + this.getId();
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getTimeEstimate() {
+        return timeEstimate;
+    }
+
+    public void setTimeEstimate(String timeEstimate) {
+        this.timeEstimate = timeEstimate;
+    }
+
+    public String getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
+
     @Override
     public String toString() {
         return "Todo{" +
@@ -89,6 +146,10 @@ public class Todo {
             ", title='" + title + '\'' +
             ", completed=" + completed +
             ", order=" + order +
+            ", summary='" + summary + '\'' +
+            ", priority='" + priority + '\'' +
+            ", timeEstimate='" + timeEstimate + '\'' +
+            ", sentiment='" + sentiment + '\'' +
             '}';
     }
 }
