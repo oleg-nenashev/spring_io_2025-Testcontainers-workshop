@@ -35,7 +35,7 @@ class HackernewsClientTest {
     @Value("${wiremock.server.baseUrl}")
     private String wireMockUrl;
 
-    public WebClient getWebClient() {
+    private WebClient getWebClient() {
         return WebClient.builder()
                 .baseUrl(wireMockUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -45,15 +45,13 @@ class HackernewsClientTest {
     @Test
     public void hasTopStories() {
         List<HackernewsItem> items = new ArrayList<>();
-        HackernewsClient.Query.getTopStories(getWebClient(), 5, hnItem -> {
-           items.add(hnItem);
-        });
+        HackernewsClient.Query.getTopStories(getWebClient(), 5, items::add);
 
         Assert.assertEquals(5, items.size());
     }
 
     @Test
-    public void canFail() {
+    public void loadsBestStoriesFromTheAPI() {
         given()
                 .baseUri(wireMockUrl)
                 .contentType(ContentType.JSON)

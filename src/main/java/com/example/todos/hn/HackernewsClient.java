@@ -48,12 +48,12 @@ public class HackernewsClient {
 
       public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
       client.get()
-          .uri("beststories.json")
+          .uri("/beststories.json")
           .retrieve()
           .bodyToFlux(Integer.class)
           .take(n)
           .flatMap(id -> client.get()
-                  .uri("item/{id}.json", id)
+                  .uri("/item/{id}.json", id)
                   .retrieve()
                   .bodyToMono(HackernewsItem.class))
           .subscribe(consumer);
