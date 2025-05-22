@@ -188,6 +188,35 @@ void todosCanBeLoaded() {
 }
 ```
 
+Now lets replace using a real LLM (local but real with all its non-determinism and quirks) with a mocked solution:
+
+Look at the MockAIContainersConfig class, it configures WireMockContainer with additional mocks to respond to the queries we send to the LLM: 
+```java
+@Bean
+WireMockContainer wireMockContainer() {
+    var container = new WireMockContainer("wiremock/wiremock:3.13.0")
+        .withMappingFromResource("hackernews", "mappings/hackernews_v0-stubs.json")
+         .withMappingFromResource("AI Model", "ai/mappings/aimodel.json");    ;
+
+    return container;
+}
+
+@Bean
+DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer) {
+    return registry -> {
+        registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
+        registry.add("spring.ai.openai.base-url", wireMockContainer::getBaseUrl);
+    };
+}
+```
+
+Look at the `AIServiceTests` class to see the tests that use that configuration. 
+
+** Tasks for the reader ** 
+* Implement slow down with wiremock injecting latency (https://wiremock.org/docs/simulating-faults/)
+* Change the mocked data to not conform to the schema (for example, removing some of the fields in the response or changing it altogether)
+* Change the mocked data to have non-sensical summary. How would you change the application logic to check of that? Maybe using another LLM as a guardrail? 
+
 ### Screenshot
 
 Demo app after loading Hacker News best stories from the WireMock container:
