@@ -8,6 +8,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 
+
 @TestConfiguration(proxyBeanMethods = false)
 public class ContainersConfig {
 
@@ -21,7 +22,7 @@ public class ContainersConfig {
 
     @Bean
     DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer) {
-        return registry -> registry.add("api.url", wireMockContainer::getBaseUrl);
+        return registry -> registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
     }
 
     @Bean

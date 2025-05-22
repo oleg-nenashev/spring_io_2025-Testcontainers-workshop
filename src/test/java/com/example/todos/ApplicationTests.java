@@ -27,6 +27,23 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
     classes = {ContainersConfig.class})
 class ApplicationTests {
 
+    protected RequestSpecification requestSpecification;
+
+    @LocalServerPort
+    protected int localServerPort;
+
+    @BeforeEach
+    public void setUpAbstractIntegrationTest() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        requestSpecification = new RequestSpecBuilder()
+                .setPort(localServerPort)
+                .addHeader(
+                        HttpHeaders.CONTENT_TYPE,
+                        MediaType.APPLICATION_JSON_VALUE
+                )
+                .build();
+    }
+
     @Test
     void todosCanBeLoaded() {
         given(requestSpecification)
@@ -46,21 +63,6 @@ class ApplicationTests {
         });
     }
 
-    protected RequestSpecification requestSpecification;
 
-    @LocalServerPort
-    protected int localServerPort;
-
-    @BeforeEach
-    public void setUpAbstractIntegrationTest() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        requestSpecification = new RequestSpecBuilder()
-            .setPort(localServerPort)
-            .addHeader(
-                HttpHeaders.CONTENT_TYPE,
-                MediaType.APPLICATION_JSON_VALUE
-            )
-            .build();
-    }
 
 }
