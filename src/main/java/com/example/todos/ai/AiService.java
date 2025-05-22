@@ -3,6 +3,7 @@ package com.example.todos.ai;
 import com.example.todos.hn.HackernewsItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,13 +32,18 @@ public class AiService {
     public HackernewsItemResult assess(HackernewsItem item) {
             // If parsing fails, it might be due to <think> tags in the response
             String rawContent = newsAssistant.prompt()
+                    .advisors(new SimpleLoggerAdvisor())
                     .user(u ->u.text("Hacker News Item: is {item}").param("item", item))
                     .call()
                     .content();
 
-            // Remove any <think>text</think> tags from the raw content
-            final String cleanedContent = rawContent.replaceAll("<think>.*?</think>", "");
 
+            // Remove any <think>text</think> tags from the raw content
+            String cleanedContent = rawContent.replaceAll("<think>.*?</think>", "");
+
+            // Remove backticks and "json" markers
+            cleanedContent = cleanedContent.replaceAll("```json\\s*", "").replaceAll("```\\s*", "");
+            System.out.println("cleanedContent: " + cleanedContent);
             // Try to parse the cleaned content
             try {
                 // Use the class-level ObjectMapper to convert the cleaned content to HackernewsItemResult
@@ -81,7 +87,7 @@ class ConversationalConfiguration {
                  {
                    "summary": "...",
                    "priority": "high",
-                   "time_estimate": "5-7 min",
+                   "timeEstimate": "5-7 min",
                    "sentiment": "neutral"
                  }
 
