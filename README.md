@@ -165,9 +165,28 @@ Integration tests are perfect for testing "black-box" AI components, and in a ty
 
 Negative use cases are also hard to verify on either production or local models. And it makes a lot of sense to mock the responses on the service level in your integration tests. 
 
+Let's start with the sanity test that shows the application wires together and there exist setups where intended functionality works:
+
+Add the following `todosCanBeLoaded` test to the  `ApplicationTests` class. It wires together the whole application, and sends a request to 'todos/hn'  
+```java
+@Test
+void todosCanBeLoaded() {
+    given(requestSpecification)
+        .when().post("/todos/hn")
+        .then().statusCode(200);
 
 
+    await().atMost(10, SECONDS).untilAsserted(() -> {
+        JsonPath jsonPath = given(requestSpecification)
+            .when().get("/todos")
+            .then().statusCode(200)
+            .extract().body().jsonPath();
 
+        List<Todo> todos = jsonPath.getList("", Todo.class);
+        Assertions.assertThat(todos).hasSize(6);
+    });
+}
+```
 
 ### Screenshot
 
