@@ -4,12 +4,7 @@
     "name" : "v1_chat_completions",
     "request" : {
       "url" : "/v1/chat/completions",
-      "method" : "POST",
-      "bodyPatterns" : [ {
-        "equalToJson" : "{\"messages\":[{\"content\":\"You are an AI assistant that processes Hacker News articles to help users quickly understand and prioritize them.\\n\\n Given the following article metadata:\\n ID: {id}\\n Title: {title}\\n URL: {url}\\n Author: {by}\\n Timestamp: {time}\\n Number of Comments: {descendants}\\n Perform the following:\\n\\n Summary: Provide a concise summary of what this article is about, based on the title and context.\\n\\n Priority: Estimate how important or relevant this article might be to a general tech-savvy user (low / medium / high). Use title content and comment volume as signals.\\n\\n Time Estimate: Estimate how long it might take to read and understand the article  together with the comments (e.g., \\\"2 min\\\", \\\"5-7 min\\\").\\n\\n Sentiment: Predict the likely sentiment of the article and its discussion (positive / negative / neutral). Use comment count and title tone as clues.\\n\\n Respond in JSON format like:\\n {\\n   \\\"summary\\\": \\\"...\\\",\\n   \\\"priority\\\": \\\"high\\\",\\n   \\\"timeEstimate\\\": \\\"5-7 min\\\",\\n   \\\"sentiment\\\": \\\"neutral\\\"\\n }\\n\\n Do not output backticks or markdown. Do not output anything except for Json itself!\\n\",\"role\":\"system\"},{\"content\":\"Hacker News Item: is HackernewsItem[id=44031385, title=The Windows Subsystem for Linux is now open source, url=https://blogs.windows.com/windowsdeveloper/2025/05/19/the-windows-subsystem-for-linux-is-now-open-source/, by=pentagrama, time=Wed Jan 21 06:27:51 CET 1970, descendants=1158]\",\"role\":\"user\"}],\"model\":\"ai/gemma3-qat:1B-Q4_K_M\",\"stream\":false,\"temperature\":0.7}",
-        "ignoreArrayOrder" : true,
-        "ignoreExtraElements" : true
-      } ]
+      "method" : "POST"
     },
     "response" : {
       "status" : 301,
