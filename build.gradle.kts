@@ -55,7 +55,7 @@ dependencies {
     testImplementation(libs.org.testcontainers.junit.jupiter)
     testImplementation(libs.org.testcontainers.postgresql)
     testImplementation(libs.org.testcontainers.mysql)
-    testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:3.13.0")
+    testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-15")
     testImplementation(libs.io.rest.assured.rest.assured)
 
     testImplementation("org.wiremock.integrations:wiremock-spring-boot:3.6.0") {
