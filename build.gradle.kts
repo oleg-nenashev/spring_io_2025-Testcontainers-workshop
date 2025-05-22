@@ -15,7 +15,7 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-description = "testcontainers-java-spring-boot-quickstart"
+description = "Sample Todo application with AI features "
 
 java {
     toolchain {
@@ -25,10 +25,7 @@ java {
 
 repositories {
     mavenLocal()
-    maven {
-        url = uri("https://jitpack.io")
-    }
-
+    maven { url = uri("https://repo.spring.io/")}
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
@@ -37,7 +34,11 @@ repositories {
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation(platform("org.testcontainers:testcontainers-bom:1.21.0"))
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M6"))
     implementation("org.flywaydb:flyway-database-postgresql")
+
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+    implementation("org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter")
 
     api(libs.org.springframework.boot.spring.boot.starter.data.jpa)
     api(libs.org.springframework.boot.spring.boot.starter.validation)

@@ -1,5 +1,7 @@
 package com.example.todos.hn;
 
+import com.example.todos.ai.AiService;
+import com.example.todos.ai.HackernewsItemResult;
 import com.example.todos.entity.Todo;
 import com.example.todos.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class HackernewsClient {
 
   @Autowired
   private TodoRepository todoRepository;
+
+  @Autowired
+  private AiService aiService;
 
 
   // method to return Spring WebClient object for querying the Hackernews API
@@ -57,6 +62,19 @@ public class HackernewsClient {
                   .retrieve()
                   .bodyToMono(HackernewsItem.class))
           .subscribe(consumer);
+    }
+  }
+
+  private void todoFromHNItem(HackernewsItem hnItem) {
+    String title = hnItem.title();
+    List<Todo> byTitle = todoRepository.findByTitle(title);
+    if(byTitle.isEmpty()) {
+      Todo todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
+      todoRepository.save(todo);
+
+
+      HackernewsItemResult assessment = aiService.assess(hnItem);
+      System.out.println("Oleg-Oleg: \n\n\n:" + assessment);
     }
   }
 
