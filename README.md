@@ -99,6 +99,7 @@ Once these steps are completed, the application will be able to leverage the loc
 
 Tasks: 
 
+**Configure AI in the application** 
 Configure Spring AI to use OpenAI compatible API of Docker Model Runner. 
 In the application.properties file, we should have a block configuring Spring AI: 
 
@@ -127,26 +128,45 @@ Docker Model Runner can be configured to be accessible from the localhost (in th
 Add a DockerModelRunnerContainer Bean to the ContainersConfig: 
 ```java
  @Bean
-    DockerModelRunnerContainer dockerModelRunnerContainer() {
-        var container = new DockerModelRunnerContainer("alpine/socat:1.8.0.1");
-        return container;
-    }
+DockerModelRunnerContainer dockerModelRunnerContainer() {
+    var container = new DockerModelRunnerContainer("alpine/socat:1.8.0.1");
+    return container;
+}
 ```
 
 Use DockerModelRunnerContainer bean to provide the value `spring.ai.openai.base-url` at runtime.
 ```java
-    @Bean
-    DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer, DockerModelRunnerContainer dockerModelRunnerContainer) {
-        return registry -> {
-            registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
-            registry.add("spring.ai.openai.base-url", dockerModelRunnerContainer::getOpenAIEndpoint);
-        };
-    }
+@Bean
+DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer, DockerModelRunnerContainer dockerModelRunnerContainer) {
+    return registry -> {
+        registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
+        registry.add("spring.ai.openai.base-url", dockerModelRunnerContainer::getOpenAIEndpoint);
+    };
+}
 ```
 
-Run TestApplication, open application UI in the browser and check that now pulling stories from HackerNews also triggers our AI functionality. 
+Run TestApplication, open the application UI in a browser and check that pulling stories from HackerNews also triggers our AI functionality now. 
 
 ![Web UI with AI](./docs/images/todo-app-with-ai-info.png)
+
+**Testing AI applications** 
+
+From the architecture point of view, AI components are largely just APIs. Often the application will query a remote service running the LLM with a prompt, receive a response and convert it into the application data model. 
+AI responses are non-deterministic and thus testing these interactions becomes crucial for production applications. 
+
+Integration tests are perfect for testing "black-box" AI components, and in a typical application we'll have the following kinds of tests:
+* Sanity tests: using a local model you can model your production LLM and verify that your prompts are sufficient for "dumber" LLM, so could work for production LLM. 
+* Data-driven tests: it's hard to make a model output particular responses, so we mock the AI provider with Wiremock or Microcks services and inject data we need application to be able to handle.
+* Negative use-cases tests: 
+  * AI responses are too slow
+  * AI responses are nonsense text
+  * AI responses do not respect the intended schema 
+
+
+Negative use cases are also hard to verify on either production or local models. And it makes a lot of sense to mock the responses on the service level in your integration tests. 
+
+
+
 
 
 ### Screenshot
