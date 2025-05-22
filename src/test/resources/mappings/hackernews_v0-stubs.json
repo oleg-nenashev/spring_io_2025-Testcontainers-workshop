@@ -406,17 +406,31 @@
     }
   },
   {
-    "name" : "Get Hacker News Item - 404",
+    "name" : "Get Hacker News Best Stories",
     "request" : {
       "urlPathTemplate" : "/beststories.json",
       "method" : "GET"
     },
     "response" : {
       "status" : 200,
-      "body" : " [ 12346, 678, 435, 239 ]",
+      "body" : " [ 12346 ]",
       "headers" : {
         "Content-Type" : "application/json"
       }
     }
-  }]
+  },
+    {
+      "name" : "Get Hacker Top Stories",
+      "request" : {
+        "urlPathTemplate" : "/topstories.json",
+        "method" : "GET"
+      },
+      "response" : {
+        "status" : 200,
+        "body" : " [ 12346, 678, 435, 239 ]",
+        "headers" : {
+          "Content-Type" : "application/json"
+        }
+      }
+    }]
 }

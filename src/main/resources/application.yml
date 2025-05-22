@@ -23,5 +23,7 @@ spring:
         enabled: true
         options:
           model: ai/gemma3-qat:1B-Q4_K_M #ai/qwen3:30B-A3B-Q4_K_M
-      base-url: http://localhost:12434/engines/
+          base-url: http://localhost:12434/engines/
+          # For recording
+          #base-url: http://localhost:8081/
       api-key: "spring-boot, please don't yell at me"

@@ -64,6 +64,9 @@ Tasks:
 
 * Docker Model Runner: https://docs.docker.com/model-runner/
 * Spring AI: https://spring.io/projects/spring-ai
+* Ensure to enable host-side TCP support
+
+![Sample](docs/images/docker_config.png)
 
 Get started: 
 
@@ -83,6 +86,14 @@ Demo app after loading Hacker News best stories from the WireMock container:
   For that, see the 2023-2024 talks below.
 * We do not show running WireMock and Testcontainers inside Gradle builds.
   You can do it if needed.
+
+## Recording AI Interactions
+
+* Guide: https://wiremock.org/docs/record-playback/
+* `docker run -it --rm -p 8081:8080 wiremock/wiremock:3.13.0 --disable-http2-plain   
+`
+* Go to http://localhost:8081/__admin/recorder/
+* Record http://model-runner.docker.internal:80/
 
 ## References
 

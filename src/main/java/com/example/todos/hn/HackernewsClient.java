@@ -46,17 +46,25 @@ public class HackernewsClient {
 
   public static class Query {
 
-      public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
+    public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
+        getStories("/topstories.json", n, consumer);
+    }
+
+    public static void getBestStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
+        getStories("/beststories.json", n, consumer);
+    }
+
+    public static void getStories(String endpoint, WebClient client, int n, Consumer<HackernewsItem> consumer) {
       client.get()
-          .uri("/beststories.json")
-          .retrieve()
-          .bodyToFlux(Integer.class)
-          .take(n)
-          .flatMap(id -> client.get()
-                  .uri("/item/{id}.json", id)
-                  .retrieve()
-                  .bodyToMono(HackernewsItem.class))
-          .subscribe(consumer);
+              .uri(endpoint)
+              .retrieve()
+              .bodyToFlux(Integer.class)
+              .take(n)
+              .flatMap(id -> client.get()
+                      .uri("/item/{id}.json", id)
+                      .retrieve()
+                      .bodyToMono(HackernewsItem.class))
+              .subscribe(consumer);
     }
   }
 
