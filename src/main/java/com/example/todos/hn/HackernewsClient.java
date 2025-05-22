@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 // class to query the Hackernews API, and return HackernewsItem objects
 @Component
@@ -32,24 +33,31 @@ public class HackernewsClient {
 
   // method to query the Hackernews API, and return a HackernewsItem object
   public void getTopStories(int n) {
-    getWebClient().get()
-        .uri("beststories.json")
-        .retrieve()
-        .bodyToFlux(Integer.class)
-        .take(n)
-        .flatMap(id -> getWebClient().get()
-            .uri("item/{id}.json", id)
-            .retrieve()
-            .bodyToMono(HackernewsItem.class))
-        .subscribe(hnItem ->
-        {
-          String title = hnItem.title();
-          List<Todo> byTitle = todoRepository.findByTitle(title);
-          if(byTitle.isEmpty()) {
-            Todo todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
-            todoRepository.save(todo);
-          }
-        });
+    Query.getTopStories(getWebClient(), n, hnItem ->
+      {
+        String title = hnItem.title();
+        List<Todo> byTitle = todoRepository.findByTitle(title);
+        if(byTitle.isEmpty()) {
+          Todo todo = new Todo(null, title, hnItem.url(), false, hnItem.descendants());
+          todoRepository.save(todo);
+        };
+      });
+  }
+
+  public static class Query {
+
+    public static void getTopStories(WebClient client, int n, Consumer<HackernewsItem> consumer) {
+      client.get()
+          .uri("beststories.json")
+          .retrieve()
+          .bodyToFlux(Integer.class)
+          .take(n)
+          .flatMap(id -> client.get()
+                  .uri("item/{id}.json", id)
+                  .retrieve()
+                  .bodyToMono(HackernewsItem.class))
+          .subscribe(consumer);
+    }
   }
 
 }

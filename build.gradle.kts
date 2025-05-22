@@ -55,6 +55,11 @@ dependencies {
     testImplementation(libs.com.github.wiremock.wiremock.testcontainers.java)
     testImplementation(libs.io.rest.assured.rest.assured)
 
+    testImplementation("org.wiremock.integrations:wiremock-spring-boot:3.6.0") {
+        exclude(group = "com.github.jknack.handlebars.java")
+    }
+    testImplementation("org.eclipse.jetty:jetty-reactive-httpclient:4.0.9")
+
     compileOnly("org.springframework.boot:spring-boot-devtools")
 
     // If we use the dev services mode

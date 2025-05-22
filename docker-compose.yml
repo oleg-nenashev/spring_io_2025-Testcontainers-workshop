@@ -15,4 +15,4 @@ services:
 #    ports:
 #      - "5433:8080"
 #    volumes:
-#      - ./src/test/resources:/home/wiremock/mappings
+#      - ./src/test/resources:/home/wiremock/

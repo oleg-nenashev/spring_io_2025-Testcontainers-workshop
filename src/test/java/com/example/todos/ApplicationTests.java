@@ -19,12 +19,16 @@ import static io.restassured.RestAssured.given;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
+/**
+ * It is a test configuration for Testcontainers isolating the target environment.
+ *
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-classes = {ContainersConfig.class})
+    classes = {ContainersConfig.class})
 class ApplicationTests {
 
     @Test
-    void contextLoads() {
+    void todosCanBeLoaded() {
         given(requestSpecification)
             .when().post("/todos/hn")
             .then().statusCode(200);

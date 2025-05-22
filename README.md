@@ -24,7 +24,9 @@ Let's write a few tests with Testcontainers
 
 1. We will use Postgres in a Container
 2. We can use Developer Services. They are [available](https://docs.spring.io/spring-boot/reference/features/dev-services.html) in Spring Boot, too!
-3. Uncomment `withDevServices` in `gradle.settings.kts`
+    * Uncomment `withDevServices` in `gradle.settings.kts`
+3. We can use Testcontainers for tests - `TodoControllerTest`
+4. We can use Testcontainers as a Dev Service!
 
 Task: We have a database with the migration script.
 Let's test that we use the right versions and can actually migrate.
@@ -45,7 +47,7 @@ Steps:
 
 1. Try the application against the production server. It might work... or not
 2. Enable the WireMock service in Docker Compose by uncommenting the bits in 
-   `docker-compose.yml`, `gradle.properties` and `application.yml`
+   `docker-compose.yml`, `gradle.properties`, and `application.yml`
 2. Check out the `ContainersConfig` class to see how elegant the Spring Boot and Testcontainers integration is now.
 Let's write a few tests for the Hackernews API provider with them.
 2. Check out the WireMock JSON and how non-elegant it is
