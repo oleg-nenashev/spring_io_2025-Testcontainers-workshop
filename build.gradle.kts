@@ -48,8 +48,10 @@ dependencies {
     runtimeOnly(libs.org.springframework.boot.spring.boot.devtools)
     runtimeOnly(libs.org.postgresql.postgresql)
     runtimeOnly(libs.com.mysql.mysql.connector.j)
+
     testImplementation(libs.org.springframework.boot.spring.boot.starter.test)
     testImplementation(libs.org.springframework.boot.spring.boot.testcontainers)
+
     testImplementation(libs.org.testcontainers.junit.jupiter)
     testImplementation(libs.org.testcontainers.postgresql)
     testImplementation(libs.org.testcontainers.mysql)

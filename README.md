@@ -27,6 +27,7 @@ Let's write a few tests with Testcontainers
     * Uncomment `withDevServices` in `gradle.settings.kts`
 3. We can use Testcontainers for tests - `TodoControllerTest`
 4. We can use Testcontainers as a Dev Service!
+5. Run application locally with `./gradlew bootTestRun`
 
 Task: We have a database with the migration script.
 Let's test that we use the right versions and can actually migrate.
