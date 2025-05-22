@@ -68,24 +68,92 @@ Tasks:
 
 ![Sample](docs/images/docker_config.png)
 
-Get started: 
+The application will use AI to process Hacker News articles and provide a quick understanding of their content.
+The `AiService` class is responsible for this functionality. It interacts with an AI model to generate:
+- A concise summary of the article.
+- An estimated priority (low/medium/high) for a general tech-savvy user.
+- An estimated time to read and understand the article and its comments.
+- A predicted sentiment (positive/negative/neutral) of the article and its discussion.
 
-1. Pull the model using `docker pull ai/qwen3:30B-A3B-Q4_K_M` (for reasonable results) or `ai/smollm2:135M-Q2_K` (for minimum PoC)
-2. Add Spring AI to your project
-3. Configure it to refer the Docker Model Runner
+To enable the AI features, you'll need to use a local AI model. We'll be using the `ai/gemma3-qat:1B-Q4_K_M` model.
+
+**Setup Instructions:**
+
+1.  **Enable Docker Model Runner:**
+    In Docker Desktop settings, navigate to the "Beta features" tab and ensure that "Enable Docker Model Runner" is checked.
+
+2.  **Pull the Docker Model:**
+    Open your terminal and pull the model from Docker Hub:
+    ```bash
+    docker model pull ai/gemma3-qat:1B-Q4_K_M
+    ```
+    These models are OCI artifacts available in the `ai` namespace on [hub.docker.com/u/ai](hub.docker.com/u/ai).
+3. **Run models with Docker Model Runner** 
+    As a quick test you can run models direclty in your terminal: 
+    ```bash
+    docker model run ai/gemma3-qat:1B-Q4_K_M
+    ```
+    And chat with the model to verify it is pulled and configured correctly. 
+
+Once these steps are completed, the application will be able to leverage the local AI model for processing Hacker News items.
+
+Tasks: 
+
+Configure Spring AI to use OpenAI compatible API of Docker Model Runner. 
+In the application.properties file, we should have a block configuring Spring AI: 
+
+```bash
+spring:
+  ai:
+    openai:
+      chat:
+        enabled: true
+        options:
+          model: ai/gemma3-qat:1B-Q4_K_M #ai/qwen3:30B-A3B-Q4_K_M
+      base-url: http://localhost:12434/engines/
+      api-key: "spring-boot, please don't yell at me"
+```
+
+Note that models are run locally so it doesn't require an API KEY and doens't cost anything. 
+
+Explore the AI configuration, like a real prompt engineer. In the AiService class, we have the ConversationalConfiguration which specifies our AI logic in the system prompt for the chat client. 
+
+AiService itself is a bean we use in the application to trigger calls to AI. 
+
+Docker Model Runner can be configured to be accessible from the localhost (in the Docker Desktop settings), but we can also use `DockerModelRunnerContainer` class from Testcontainers to enable seamless integration from your application. 
+
+`DockerModelRunnerContainer` will proxy to the correct urls where Docker Model Runner is available and will be OS agnostic, so the same code and tests will work, for example, on Linux in your CI pipelines. Note that Docker Model Runner is currently available on Macos and Windows with NVidia GPUs, but will be integrated into Docker CE soon (work in progress).
+
+Add a DockerModelRunnerContainer Bean to the ContainersConfig: 
+```java
+ @Bean
+    DockerModelRunnerContainer dockerModelRunnerContainer() {
+        var container = new DockerModelRunnerContainer("alpine/socat:1.8.0.1");
+        return container;
+    }
+```
+
+Use DockerModelRunnerContainer bean to provide the value `spring.ai.openai.base-url` at runtime.
+```java
+    @Bean
+    DynamicPropertyRegistrar apiPropertiesRegistrar(WireMockContainer wireMockContainer, DockerModelRunnerContainer dockerModelRunnerContainer) {
+        return registry -> {
+            registry.add("hackernews.base-url", wireMockContainer::getBaseUrl);
+            registry.add("spring.ai.openai.base-url", dockerModelRunnerContainer::getOpenAIEndpoint);
+        };
+    }
+```
+
+Run TestApplication, open application UI in the browser and check that now pulling stories from HackerNews also triggers our AI functionality. 
+
+![Web UI with AI](./docs/images/todo-app-with-ai-info.png)
+
 
 ### Screenshot
 
 Demo app after loading Hacker News best stories from the WireMock container:
 
 ![Demo Web UI](./docs/images/ui_screenshot.png)
-
-## What we didn't show
-
-* In this edition, we didn't touch Testcontainers Desktop. 
-  For that, see the 2023-2024 talks below.
-* We do not show running WireMock and Testcontainers inside Gradle builds.
-  You can do it if needed.
 
 ## Recording AI Interactions
 
@@ -94,6 +162,7 @@ Demo app after loading Hacker News best stories from the WireMock container:
 `
 * Go to http://localhost:8081/__admin/recorder/
 * Record http://model-runner.docker.internal:80/
+
 
 ## References
 
