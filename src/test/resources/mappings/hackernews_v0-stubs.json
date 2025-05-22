@@ -25,7 +25,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2023-08-24T04:57:53.388197751Z",
+          "at" : "2025-08-24T04:57:53.388197751Z",
           "via" : "SYSTEM"
         }
       }
@@ -396,7 +396,7 @@
       "jsonBody" : {
         "id" : 435,
         "by": "selajev",
-        "title" : "State of Local Development and Testing 2023",
+        "title" : "State of Local Development and Testing 2025",
         "type" : "story",
         "url" : "https://www.atomicjar.com/2023/09/state-of-local-development-and-testing-2023/"
       },
